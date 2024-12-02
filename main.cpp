@@ -95,7 +95,7 @@ int main() {
         // 总成本加上最小配送成本 * 需求量
         total_cost += min_dist * customer.c;
     }
-
+    
     cout << total_cost << endl;
     return 0;
 }
