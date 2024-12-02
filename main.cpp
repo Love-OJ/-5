@@ -4,16 +4,16 @@
 #include <climits>
 
 using namespace std;
-
+//å®šä¹‰é¡¾å®¢åæ ‡å’Œéœ€æ±‚é‡
 struct Customer {
     int x, y, c;
 };
-
+//å®šä¹‰åˆ†åº—çš„åæ ‡
 struct Store {
     int x, y;
 };
 
-// ËÄ¸ö·½ÏòµÄÒÆ¶¯£¨ÉÏÏÂ×óÓÒ£©
+// å››ä¸ªæ–¹å‘çš„ç§»åŠ¨ï¼ˆä¸Šä¸‹å·¦å³ï¼‰
 int dx[] = {-1, 1, 0, 0};
 int dy[] = {0, 0, -1, 1};
 
@@ -21,22 +21,22 @@ bool is_valid(int x, int y, int n, const vector<vector<char>>& grid) {
     return x >= 0 && x < n && y >= 0 && y < n && grid[x][y] != 'X';
 }
 
-// BFS¼ÆËã´Ó¶à¸ö·Öµêµ½¸÷¸öµãµÄ×î¶ÌÂ·¾¶
+// BFSè®¡ç®—ä»å¤šä¸ªåˆ†åº—åˆ°å„ä¸ªç‚¹çš„æœ€çŸ­è·¯å¾„
 void bfs(int n, const vector<Store>& stores, vector<vector<int>>& dist, const vector<vector<char>>& grid) {
     queue<pair<int, int>> q;
 
-    // ³õÊ¼»¯¾àÀëÊı×é£¬ËùÓĞÎ»ÖÃ¶¼ÉèÎªINF
+    // åˆå§‹åŒ–è·ç¦»æ•°ç»„ï¼Œæ‰€æœ‰ä½ç½®éƒ½è®¾ä¸ºINF
     for (int i = 0; i < n; ++i) {
         fill(dist[i].begin(), dist[i].end(), INT_MAX);
     }
 
-    // ½«ËùÓĞ·Öµê¼ÓÈë¶ÓÁĞ²¢ÉèÖÃ³õÊ¼¾àÀëÎª0
+    // å°†æ‰€æœ‰åˆ†åº—åŠ å…¥é˜Ÿåˆ—å¹¶è®¾ç½®åˆå§‹è·ç¦»ä¸º0
     for (const auto& store : stores) {
         q.push({store.x, store.y});
         dist[store.x][store.y] = 0;
     }
 
-    // BFSËÑË÷×î¶ÌÂ·¾¶
+    // BFSæœç´¢æœ€çŸ­è·¯å¾„
     while (!q.empty()) {
         auto [x, y] = q.front();
         q.pop();
@@ -58,41 +58,41 @@ int main() {
     vector<Customer> customers(k);
     vector<pair<int, int>> obstacles(d);
 
-    // ÊäÈë·ÖµêÎ»ÖÃ
+    // è¾“å…¥åˆ†åº—ä½ç½®
     for (int i = 0; i < m; ++i) {
         cin >> stores[i].x >> stores[i].y;
-        stores[i].x--; stores[i].y--;  // ½«×ø±ê×ª»»Îª´Ó0¿ªÊ¼
+        stores[i].x--; stores[i].y--;  // å°†åæ ‡è½¬æ¢ä¸ºä»0å¼€å§‹
     }
 
-    // ÊäÈë¿Í»§Î»ÖÃºÍĞèÇóÁ¿
+    // è¾“å…¥å®¢æˆ·ä½ç½®å’Œéœ€æ±‚é‡
     for (int i = 0; i < k; ++i) {
         cin >> customers[i].x >> customers[i].y >> customers[i].c;
-        customers[i].x--; customers[i].y--;  // ½«×ø±ê×ª»»Îª´Ó0¿ªÊ¼
+        customers[i].x--; customers[i].y--;  // å°†åæ ‡è½¬æ¢ä¸ºä»0å¼€å§‹
     }
 
-    // ÊäÈëÕÏ°­ÎïÎ»ÖÃ
+    // è¾“å…¥éšœç¢ç‰©ä½ç½®
     vector<vector<char>> grid(n, vector<char>(n, '.'));
     for (int i = 0; i < d; ++i) {
         cin >> obstacles[i].first >> obstacles[i].second;
-        obstacles[i].first--; obstacles[i].second--;  // ½«×ø±ê×ª»»Îª´Ó0¿ªÊ¼
-        grid[obstacles[i].first][obstacles[i].second] = 'X';  // ±ê¼ÇÕÏ°­Îï
+        obstacles[i].first--; obstacles[i].second--;  // å°†åæ ‡è½¬æ¢ä¸ºä»0å¼€å§‹
+        grid[obstacles[i].first][obstacles[i].second] = 'X';  // æ ‡è®°éšœç¢ç‰©
     }
 
-    // ¼ÆËãÃ¿¸ö·Öµêµ½Ã¿¸öµãµÄ×î¶ÌÂ·¾¶
+    // è®¡ç®—æ¯ä¸ªåˆ†åº—åˆ°æ¯ä¸ªç‚¹çš„æœ€çŸ­è·¯å¾„
     vector<vector<int>> dist(n, vector<int>(n, INT_MAX));
     bfs(n, stores, dist, grid);
 
-    // ¼ÆËã×ÜÅäËÍ³É±¾
+    // è®¡ç®—æ€»é…é€æˆæœ¬
     int total_cost = 0;
     for (const auto& customer : customers) {
         int min_dist = INT_MAX;
 
-        // ¼ÆËãµ±Ç°¿Í»§µ½Ã¿¸ö·ÖµêµÄ×î¶Ì¾àÀë
+        // è®¡ç®—å½“å‰å®¢æˆ·åˆ°æ¯ä¸ªåˆ†åº—çš„æœ€çŸ­è·ç¦»
         if (dist[customer.x][customer.y] != INT_MAX) {
-            min_dist = dist[customer.x][customer.y];  // ¼ÆËãµ½·ÖµêµÄ×î¶ÌÂ·¾¶
+            min_dist = dist[customer.x][customer.y];  // è®¡ç®—åˆ°åˆ†åº—çš„æœ€çŸ­è·¯å¾„
         }
 
-        // ×Ü³É±¾¼ÓÉÏ×îĞ¡ÅäËÍ³É±¾ * ĞèÇóÁ¿
+        // æ€»æˆæœ¬åŠ ä¸Šæœ€å°é…é€æˆæœ¬ * éœ€æ±‚é‡
         total_cost += min_dist * customer.c;
     }
 
